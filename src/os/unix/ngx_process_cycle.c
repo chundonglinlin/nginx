@@ -731,6 +731,7 @@ ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data)
 
     ngx_process = NGX_PROCESS_WORKER;
     ngx_worker = worker;
+    ngx_worker_slot = worker;
 
     ngx_worker_process_init(cycle, worker);
 
@@ -924,6 +925,12 @@ ngx_worker_process_init(ngx_cycle_t *cycle, ngx_int_t worker)
     ls = cycle->listening.elts;
     for (i = 0; i < cycle->listening.nelts; i++) {
         ls[i].previous = NULL;
+    }
+
+    if (ngx_open_listening_sockets(cycle) != NGX_OK) {
+        ngx_log_error(NGX_LOG_ALERT, cycle->log, ngx_errno,
+                      "failed to init worker listeners");
+        exit(2);
     }
 
     for (i = 0; cycle->modules[i]; i++) {

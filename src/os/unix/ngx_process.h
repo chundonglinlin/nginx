@@ -85,6 +85,7 @@ extern ngx_socket_t   ngx_channel;
 extern ngx_int_t      ngx_process_slot;
 extern ngx_int_t      ngx_last_process;
 extern ngx_process_t  ngx_processes[NGX_MAX_PROCESSES];
+extern ngx_int_t      ngx_worker_slot;
 
 
 #endif /* _NGX_PROCESS_H_INCLUDED_ */

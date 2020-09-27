@@ -3828,6 +3828,11 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
             continue;
         }
 
+        if (ngx_strcmp(value[n].data, "per_worker") == 0) {
+            lsopt.per_worker = 1;
+            continue;
+        }
+
 #if (NGX_HAVE_SETFIB)
         if (ngx_strncmp(value[n].data, "setfib=", 7) == 0) {
             lsopt.setfib = ngx_atoi(value[n].data + 7, value[n].len - 7);

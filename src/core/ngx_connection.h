@@ -59,6 +59,7 @@ struct ngx_listening_s {
     unsigned            open:1;
     unsigned            remain:1;
     unsigned            ignore:1;
+    unsigned            per_worker:1;
 
     unsigned            bound:1;       /* already bound */
     unsigned            inherited:1;   /* inherited from previous process */
