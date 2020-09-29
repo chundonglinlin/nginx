@@ -15,6 +15,8 @@ ngx_os_io_t  ngx_io;
 
 static void ngx_drain_connections(ngx_cycle_t *cycle);
 
+ngx_int_t perwork_listen_port_rtmp = 0;
+ngx_int_t perwork_listen_port_http = 0;
 
 ngx_listening_t *
 ngx_create_listening(ngx_conf_t *cf, struct sockaddr *sockaddr,
@@ -506,12 +508,26 @@ ngx_open_listening_sockets(ngx_cycle_t *cycle)
                         sin6 = (struct sockaddr_in6 *) sockaddr;
                         sin6->sin6_port = htons(ntohs(sin6->sin6_port) +
                                           ngx_worker_slot);
+
+                        if (ls[i].service_type == 1) {
+                            perwork_listen_port_rtmp = ntohs(sin6->sin6_port);
+                        } else if (ls[i].service_type == 0) {
+                            perwork_listen_port_http = ntohs(sin6->sin6_port);
+                        }
+
                         break;
 #endif
                     default: /* AF_INET */
                         sin = (struct sockaddr_in *) sockaddr;
                         sin->sin_port = htons(ntohs(sin->sin_port) +
                                         ngx_worker_slot);
+
+                        if (ls[i].service_type == 1) {
+                            perwork_listen_port_rtmp = ntohs(sin->sin_port);
+                        } else if (ls[i].service_type == 0) {
+                            perwork_listen_port_http = ntohs(sin->sin_port);
+                        }
+
                 }
 
                 len = ls[i].addr_text_max_len;

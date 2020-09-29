@@ -23,7 +23,9 @@ struct ngx_listening_s {
     size_t              addr_text_max_len;
     ngx_str_t           addr_text;
 
-    int                 type;
+    int                 type;//TCP , UDP
+    int                 service_type; //0:HTTP , 1:RTMP
+
 
     int                 backlog;
     int                 rcvbuf;
